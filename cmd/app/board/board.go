@@ -27,23 +27,36 @@ func (b *Board) String() string {
 	return sb.String()
 }
 
-func Round(b *Board) *Board {
-	cells := make([][]*Cell, b.height)
-	livingCells := make(map[*Cell]bool)
-
-	for i := range cells {
-		cells[i] = make([]*Cell, b.width)
-		for j := range cells[i] {
+func (b *Board) rollCellRounds() {
+	for i := range b.height {
+		for j := range b.width {
 			current := b.cells[i][j]
-			isAlive := LivingCell(b, current)
-			cells[i][j] = NewCell(i, j, isAlive)
-			if isAlive {
-				livingCells[cells[i][j]] = true
+			current.rollRound()
+		}
+	}
+}
+
+func Round(b *Board) (*Board, int) {
+	livingCells := make(map[*Cell]bool)
+	changes := 0
+	for i := range b.height {
+		for j := range b.width {
+			current := b.cells[i][j]
+			willLive := LivingCell(b, current)
+			if willLive {
+				current.Born()
+				livingCells[current] = willLive
+			} else {
+				current.Kill()
+			}
+			if current.isAlive != current.willLive {
+				changes++
 			}
 		}
 	}
-	board := &Board{b.width, b.height, cells, livingCells}
-	return board
+	b.livingCells = livingCells
+	b.rollCellRounds()
+	return b, changes
 }
 
 func NewBoard(width, height int) *Board {

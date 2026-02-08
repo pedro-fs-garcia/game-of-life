@@ -21,6 +21,6 @@ func LivingCell(b *Board, c *Cell) bool {
 	}
 }
 
-func Stop(b *Board) bool {
-	return len(b.livingCells) == 0
+func Stop(b *Board, changes int) bool {
+	return len(b.livingCells) == 0 || changes == 0
 }

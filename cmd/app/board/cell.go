@@ -1,17 +1,18 @@
 package board
 
 type Cell struct {
-	row     int
-	col     int
-	isAlive bool
+	row      int
+	col      int
+	isAlive  bool
+	willLive bool
 }
 
 func (c *Cell) Kill() {
-	c.isAlive = false
+	c.willLive = false
 }
 
 func (c *Cell) Born() {
-	c.isAlive = true
+	c.willLive = true
 }
 
 func (c *Cell) NeighborIndexes(height, width int) [8][2]int {
@@ -27,6 +28,10 @@ func (c *Cell) NeighborIndexes(height, width int) [8][2]int {
 	return indexes
 }
 
+func (c *Cell) rollRound() {
+	c.isAlive = c.willLive
+}
+
 func correctIndex(current int, limit int) int {
 	if current >= limit {
 		current = current % limit
@@ -37,6 +42,6 @@ func correctIndex(current int, limit int) int {
 }
 
 func NewCell(row, col int, isAlive bool) *Cell {
-	newCell := Cell{row, col, isAlive}
+	newCell := Cell{row, col, isAlive, isAlive}
 	return &newCell
 }

@@ -10,9 +10,9 @@ func main() {
 	var b *board.Board = board.NewBoard(20, 20)
 	fmt.Println(b)
 	for {
-		b = board.Round(b)
+		b, changes := board.Round(b)
 		fmt.Println(b)
-		if board.Stop(b) {
+		if board.Stop(b, changes) {
 			break
 		}
 		time.Sleep(2 * time.Second)
