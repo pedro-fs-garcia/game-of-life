@@ -12,9 +12,7 @@ BINARY := $(BIN)/gameoflife
 
 all: build
 
-build: $(BINARY)
-
-$(BINARY):
+build: 
 	mkdir -p $(BIN)
 	go build -o $(BINARY) ./cmd/app
 
