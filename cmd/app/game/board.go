@@ -36,18 +36,18 @@ func (b *Board) rollCellRounds() {
 	}
 }
 
-func Round(b *Board) (*Board, int) {
+func (b *Board) Round() (*Board, int) {
 	livingCells := make(map[*Cell]bool)
 	changes := 0
 	for i := range b.height {
 		for j := range b.width {
 			current := b.cells[i][j]
-			willLive := LivingCell(b, current)
+			willLive := current.shouldLive(b)
 			if willLive {
-				current.Born()
+				current.makeAlive()
 				livingCells[current] = willLive
 			} else {
-				current.Kill()
+				current.kill()
 			}
 			if current.isAlive != current.willLive {
 				changes++
@@ -59,6 +59,10 @@ func Round(b *Board) (*Board, int) {
 	return b, changes
 }
 
+func (b *Board) Stop(changes int) bool {
+	return len(b.livingCells) == 0 || changes == 0
+}
+
 func NewBoard(width, height int) *Board {
 	cells := make([][]*Cell, height)
 	livingCells := make(map[*Cell]bool)
@@ -66,11 +70,11 @@ func NewBoard(width, height int) *Board {
 		cells[i] = make([]*Cell, width)
 		for j := range cells[i] {
 			if i == j || i+j == 19 {
-				cells[i][j] = NewCell(i, j, true)
+				cells[i][j] = newCell(i, j, true)
 				livingCells[cells[i][j]] = true
 				continue
 			}
-			cells[i][j] = NewCell(i, j, false)
+			cells[i][j] = newCell(i, j, false)
 		}
 	}
 	var board *Board = &Board{width, height, cells, livingCells}

@@ -20,7 +20,7 @@ vet:
 	go vet ./...
 
 run:
-	go run ./cmd/app
+	./bin/gameoflife
 
 clean:
 	rm -rf $(BIN)

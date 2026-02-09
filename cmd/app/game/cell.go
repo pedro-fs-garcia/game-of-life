@@ -7,15 +7,15 @@ type Cell struct {
 	willLive bool
 }
 
-func (c *Cell) Kill() {
+func (c *Cell) kill() {
 	c.willLive = false
 }
 
-func (c *Cell) Born() {
+func (c *Cell) makeAlive() {
 	c.willLive = true
 }
 
-func (c *Cell) NeighborIndexes(height, width int) [8][2]int {
+func (c *Cell) neighborIndexes(height, width int) [8][2]int {
 	indexes := [8][2]int{
 		{c.row - 1, c.col - 1}, {c.row - 1, c.col}, {c.row - 1, c.col + 1},
 		{c.row, c.col - 1}, {c.row, c.col + 1},
@@ -32,6 +32,27 @@ func (c *Cell) rollRound() {
 	c.isAlive = c.willLive
 }
 
+func (c *Cell) shouldLive(b *Board) bool {
+	indexes := c.neighborIndexes(b.height, b.width)
+
+	neighbors := 0
+	for k := range 8 {
+		x := indexes[k][0]
+		y := indexes[k][1]
+		currentCell := b.cells[x][y]
+		if _, ok := b.livingCells[currentCell]; ok {
+			neighbors++
+		}
+	}
+	if c.isAlive && (neighbors == 2 || neighbors == 3) {
+		return true
+	} else if !c.isAlive && neighbors == 3 {
+		return true
+	} else {
+		return false
+	}
+}
+
 func correctIndex(current int, limit int) int {
 	if current >= limit {
 		current = current % limit
@@ -41,7 +62,7 @@ func correctIndex(current int, limit int) int {
 	return current
 }
 
-func NewCell(row, col int, isAlive bool) *Cell {
+func newCell(row, col int, isAlive bool) *Cell {
 	newCell := Cell{row, col, isAlive, isAlive}
 	return &newCell
 }
