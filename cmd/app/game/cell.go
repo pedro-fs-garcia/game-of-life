@@ -39,8 +39,8 @@ func (c *Cell) shouldLive(b *Board) bool {
 	for k := range 8 {
 		x := indexes[k][0]
 		y := indexes[k][1]
-		currentCell := b.cells[x][y]
-		if _, ok := b.livingCells[currentCell]; ok {
+		currentCell := &b.cells[x][y]
+		if currentCell.isAlive {
 			neighbors++
 		}
 	}
@@ -62,7 +62,7 @@ func correctIndex(current int, limit int) int {
 	return current
 }
 
-func newCell(row, col int, isAlive bool) *Cell {
+func newCell(row, col int, isAlive bool) Cell {
 	newCell := Cell{row, col, isAlive, isAlive}
-	return &newCell
+	return newCell
 }

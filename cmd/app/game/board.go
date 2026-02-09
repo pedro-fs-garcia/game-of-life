@@ -6,8 +6,7 @@ import (
 
 type Board struct {
 	width, height int
-	cells         [][]*Cell
-	livingCells   map[*Cell]bool
+	cells         [][]Cell
 }
 
 func (b *Board) String() string {
@@ -30,22 +29,20 @@ func (b *Board) String() string {
 func (b *Board) rollCellRounds() {
 	for i := range b.height {
 		for j := range b.width {
-			current := b.cells[i][j]
+			current := &b.cells[i][j]
 			current.rollRound()
 		}
 	}
 }
 
 func (b *Board) Round() (*Board, int) {
-	livingCells := make(map[*Cell]bool)
 	changes := 0
 	for i := range b.height {
 		for j := range b.width {
-			current := b.cells[i][j]
+			current := &b.cells[i][j]
 			willLive := current.shouldLive(b)
 			if willLive {
 				current.makeAlive()
-				livingCells[current] = willLive
 			} else {
 				current.kill()
 			}
@@ -54,20 +51,19 @@ func (b *Board) Round() (*Board, int) {
 			}
 		}
 	}
-	b.livingCells = livingCells
 	b.rollCellRounds()
 	return b, changes
 }
 
 func (b *Board) Stop(changes int) bool {
-	return len(b.livingCells) == 0 || changes == 0
+	return changes == 0
 }
 
 func NewBoard(width, height int) *Board {
-	cells := make([][]*Cell, height)
-	livingCells := make(map[*Cell]bool)
+	cells := make([][]Cell, height)
+	livingCells := make(map[Cell]bool)
 	for i := range cells {
-		cells[i] = make([]*Cell, width)
+		cells[i] = make([]Cell, width)
 		for j := range cells[i] {
 			if i == j || i+j == 19 {
 				cells[i][j] = newCell(i, j, true)
@@ -77,6 +73,6 @@ func NewBoard(width, height int) *Board {
 			cells[i][j] = newCell(i, j, false)
 		}
 	}
-	var board *Board = &Board{width, height, cells, livingCells}
+	var board *Board = &Board{width, height, cells}
 	return board
 }
