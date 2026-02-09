@@ -1,18 +1,18 @@
 package main
 
 import (
-	"GameOfLife/cmd/app/board"
+	"GameOfLife/cmd/app/game"
 	"fmt"
 	"time"
 )
 
 func main() {
-	var b *board.Board = board.NewBoard(20, 20)
+	var b *game.Board = game.NewBoard(20, 20)
 	fmt.Println(b)
 	for {
-		b, changes := board.Round(b)
+		b, changes := game.Round(b)
 		fmt.Println(b)
-		if board.Stop(b, changes) {
+		if game.Stop(b, changes) {
 			break
 		}
 		time.Sleep(2 * time.Second)

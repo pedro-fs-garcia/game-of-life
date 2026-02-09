@@ -1,4 +1,4 @@
-package board
+package game
 
 func LivingCell(b *Board, c *Cell) bool {
 	indexes := c.NeighborIndexes(b.height, b.width)
