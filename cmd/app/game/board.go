@@ -7,6 +7,7 @@ import (
 type Board struct {
 	width, height int
 	cells         [][]Cell
+	livingCount   int
 }
 
 func (b *Board) String() string {
@@ -37,12 +38,14 @@ func (b *Board) rollCellRounds() {
 
 func (b *Board) Round() (*Board, int) {
 	changes := 0
+	livingCount := 0
 	for i := range b.height {
 		for j := range b.width {
 			current := &b.cells[i][j]
 			willLive := current.shouldLive(b)
 			if willLive {
 				current.makeAlive()
+				livingCount++
 			} else {
 				current.kill()
 			}
@@ -52,27 +55,28 @@ func (b *Board) Round() (*Board, int) {
 		}
 	}
 	b.rollCellRounds()
+	b.livingCount = livingCount
 	return b, changes
 }
 
 func (b *Board) Stop(changes int) bool {
-	return changes == 0
+	return b.livingCount == 0 || changes == 0
 }
 
 func NewBoard(width, height int) *Board {
 	cells := make([][]Cell, height)
-	livingCells := make(map[Cell]bool)
+	livingCount := 0
 	for i := range cells {
 		cells[i] = make([]Cell, width)
 		for j := range cells[i] {
 			if i == j || i+j == 19 {
 				cells[i][j] = newCell(i, j, true)
-				livingCells[cells[i][j]] = true
+				livingCount++
 				continue
 			}
 			cells[i][j] = newCell(i, j, false)
 		}
 	}
-	var board *Board = &Board{width, height, cells}
+	var board *Board = &Board{width, height, cells, livingCount}
 	return board
 }
