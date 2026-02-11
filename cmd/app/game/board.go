@@ -5,9 +5,9 @@ import (
 )
 
 type Board struct {
-	width, height int
-	cells         [][]Cell
-	livingCount   int
+	size        int
+	cells       [][]Cell
+	livingCount int
 }
 
 func (b *Board) String() string {
@@ -28,8 +28,8 @@ func (b *Board) String() string {
 }
 
 func (b *Board) rollCellRounds() {
-	for i := range b.height {
-		for j := range b.width {
+	for i := range b.size {
+		for j := range b.size {
 			current := &b.cells[i][j]
 			current.rollRound()
 		}
@@ -39,8 +39,8 @@ func (b *Board) rollCellRounds() {
 func (b *Board) Round() (*Board, int) {
 	changes := 0
 	livingCount := 0
-	for i := range b.height {
-		for j := range b.width {
+	for i := range b.size {
+		for j := range b.size {
 			current := &b.cells[i][j]
 			willLive := current.shouldLive(b)
 			if willLive {
@@ -63,20 +63,19 @@ func (b *Board) Stop(changes int) bool {
 	return b.livingCount == 0 || changes == 0
 }
 
-func NewBoard(width, height int) *Board {
-	cells := make([][]Cell, height)
-	livingCount := 0
+func NewBoard(size int, livingCoords map[Coord]struct{}) *Board {
+	cells := make([][]Cell, size)
 	for i := range cells {
-		cells[i] = make([]Cell, width)
+		cells[i] = make([]Cell, size)
 		for j := range cells[i] {
-			if i == j || i+j == 19 {
+			c := Coord{i, j}
+			if c.belongsTo(livingCoords) {
 				cells[i][j] = newCell(i, j, true)
-				livingCount++
 				continue
 			}
 			cells[i][j] = newCell(i, j, false)
 		}
 	}
-	var board *Board = &Board{width, height, cells, livingCount}
+	var board *Board = &Board{size, cells, len(livingCoords)}
 	return board
 }

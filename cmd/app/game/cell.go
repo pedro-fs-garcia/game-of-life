@@ -15,15 +15,15 @@ func (c *Cell) makeAlive() {
 	c.willLive = true
 }
 
-func (c *Cell) neighborIndexes(height, width int) [8][2]int {
+func (c *Cell) neighborIndexes(size int) [8][2]int {
 	indexes := [8][2]int{
 		{c.row - 1, c.col - 1}, {c.row - 1, c.col}, {c.row - 1, c.col + 1},
 		{c.row, c.col - 1}, {c.row, c.col + 1},
 		{c.row + 1, c.col - 1}, {c.row + 1, c.col}, {c.row + 1, c.col + 1},
 	}
 	for k := range 8 {
-		indexes[k][0] = correctIndex(indexes[k][0], height)
-		indexes[k][1] = correctIndex(indexes[k][1], width)
+		indexes[k][0] = correctIndex(indexes[k][0], size)
+		indexes[k][1] = correctIndex(indexes[k][1], size)
 	}
 	return indexes
 }
@@ -33,7 +33,7 @@ func (c *Cell) rollRound() {
 }
 
 func (c *Cell) shouldLive(b *Board) bool {
-	indexes := c.neighborIndexes(b.height, b.width)
+	indexes := c.neighborIndexes(b.size)
 
 	neighbors := 0
 	for k := range 8 {
