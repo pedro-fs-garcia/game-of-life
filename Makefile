@@ -1,28 +1,34 @@
+BIN_DIR := bin
+EXERCISE ?= gameoflife
+BINARY := $(BIN_DIR)/$(EXERCISE)
+
+.PHONY: build run tidy fmt test vet clean check
+
+build:
+	cd $(EXERCISE) && \
+	go build -o ../$(BINARY) ./cmd/app
+
+run:
+	cd $(EXERCISE) && \
+	go run ./cmd/app
+
+tidy:
+	cd $(EXERCISE) && \
+	go mod tidy
+
 fmt:
+	cd $(EXERCISE) && \
 	gofmt -w .
 
 test:
+	cd $(EXERCISE) && \
 	go test ./...
 
-build:
-BIN := bin
-BINARY := $(BIN)/gameoflife
-
-.PHONY: all fmt test build run vet clean mod-tidy check
-
-all: build
-
-build: 
-	mkdir -p $(BIN)
-	go build -o $(BINARY) ./cmd/app
-
 vet:
+	cd $(EXERCISE) && \
 	go vet ./...
 
-run:
-	./bin/gameoflife
-
 clean:
-	rm -rf $(BIN)
+	rm -rf $(BIN_DIR)
 
 check: fmt vet test

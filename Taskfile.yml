@@ -1,0 +1,24 @@
+version: '3'
+
+vars:
+  BIN_DIR: bin
+  GAMEOFLIFE_DIR: gameoflife
+
+tasks:
+  gameoflife:build:
+    desc: Build Conway's Game of Life
+    dir: "{{.GAMEOFLIFE_DIR}}"
+    cmds:
+      - go build -o ../{{.BIN_DIR}}/gameoflife{{exeExt}} ./cmd/app
+
+  gameoflife:run:
+    desc: Executa o Conway's Game of Life
+    dir: "{{.GAMEOFLIFE_DIR}}"
+    cmds:
+      - go run ./cmd/app
+
+  gameoflife:tidy:
+    desc: go mod tidy no Game of Life
+    dir: "{{.GAMEOFLIFE_DIR}}"
+    cmds:
+      - go mod tidy
