@@ -3,6 +3,7 @@ version: '3'
 vars:
   BIN_DIR: bin
   GAMEOFLIFE_DIR: gameoflife
+  LANGTONSANT_DIR: langtons-ant
 
 tasks:
   gameoflife:build:
@@ -22,3 +23,15 @@ tasks:
     dir: "{{.GAMEOFLIFE_DIR}}"
     cmds:
       - go mod tidy
+
+  langtons-ant:build:
+    desc: Build Langton's Ant
+    dir: "{{.LANGTONSANT_DIR}}"
+    cmds:
+      - go build -o ../{{.BIN_DIR}}/langtonsant{{exeExt}} ./cmd/langtonsant
+  
+  langtons-ant:run:
+    desc: Executa o Langton's Ant
+    dir: "{{.LANGTONSANT_DIR}}"
+    cmds:
+      - go run ./cmd/langtonsant
