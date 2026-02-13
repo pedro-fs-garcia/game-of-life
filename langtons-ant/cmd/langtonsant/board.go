@@ -5,23 +5,14 @@ import (
 )
 
 type Coord struct {
-	x uint8
-	y uint8
-}
-
-type Ant struct {
-	position  Coord
-	direction string
-}
-
-type Cell struct {
-	coord Coord
-	state bool
+	row uint8
+	col uint8
 }
 
 type Board struct {
 	size  uint8 // board accepted size: 0 - 256
 	cells [][]Cell
+	ant   Ant
 }
 
 func (b *Board) String() string {
@@ -42,13 +33,17 @@ func (b *Board) String() string {
 
 func NewBoard(size uint8) *Board {
 	cells := make([][]Cell, size)
-	for x := range size {
-		cells[x] = make([]Cell, size)
-		for y := range size {
-			coord := Coord{x, y}
-			cells[x][y] = Cell{coord, false}
+	ant := Ant{
+		Coord{10, 10},
+		AntDirection(0),
+	}
+	for row := range size {
+		cells[row] = make([]Cell, size)
+		for col := range size {
+			coord := Coord{row, col}
+			cells[row][col] = Cell{coord, false}
 		}
 	}
-	b := &Board{size, cells}
+	b := &Board{size, cells, ant}
 	return b
 }
