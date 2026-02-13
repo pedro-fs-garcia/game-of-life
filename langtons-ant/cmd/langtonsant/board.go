@@ -15,20 +15,37 @@ type Board struct {
 	ant   Ant
 }
 
+func (b *Board) AntPosition() (uint8, uint8) {
+	return b.ant.position.row, b.ant.position.col
+}
+
 func (b *Board) String() string {
 	var sb strings.Builder
+	antRow, antCol := b.AntPosition()
 	for i := range b.size {
 		for j := range b.size {
-			s := b.cells[i][j].state
-			if s {
-				sb.WriteString("■ ")
+			var square string
+			if i == antRow && j == antCol {
+				square = b.cells[i][j].String(true) + b.ant.String()
 			} else {
-				sb.WriteString("□ ")
+				square = b.cells[i][j].String(false)
 			}
+			sb.WriteString(square + " ")
 		}
 		sb.WriteString("\n")
 	}
 	return sb.String()
+}
+
+func (b *Board) RunRound() {
+	r, c := b.AntPosition()
+	if b.cells[r][c].state {
+		b.ant.TurnRight()
+	} else {
+		b.ant.TurnLeft()
+	}
+	b.cells[r][c].Flip()
+	b.ant.Walk()
 }
 
 func NewBoard(size uint8) *Board {
