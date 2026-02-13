@@ -9,6 +9,11 @@ type Coord struct {
 	col uint8
 }
 
+func (c Coord) belongsTo(coordMap map[Coord]struct{}) bool {
+	_, ok := coordMap[c]
+	return ok
+}
+
 type Board struct {
 	size  uint8 // board accepted size: 0 - 256
 	cells [][]Cell
@@ -45,20 +50,25 @@ func (b *Board) RunRound() {
 		b.ant.TurnLeft()
 	}
 	b.cells[r][c].Flip()
-	b.ant.Walk()
+	b.ant.Walk(b.size)
 }
 
-func NewBoard(size uint8) *Board {
+func NewBoard(size uint8, whiteCoordinates map[Coord]struct{}) *Board {
 	cells := make([][]Cell, size)
+	center := size / 2
 	ant := Ant{
-		Coord{10, 10},
-		AntDirection(0),
+		Coord{center, center},
+		NORTH,
 	}
 	for row := range size {
 		cells[row] = make([]Cell, size)
 		for col := range size {
 			coord := Coord{row, col}
-			cells[row][col] = Cell{coord, false}
+			if coord.belongsTo(whiteCoordinates) {
+				cells[row][col] = Cell{coord, true}
+			} else {
+				cells[row][col] = Cell{coord, false}
+			}
 		}
 	}
 	b := &Board{size, cells, ant}

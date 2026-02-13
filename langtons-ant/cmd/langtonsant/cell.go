@@ -1,7 +1,5 @@
 package main
 
-import "strings"
-
 const (
 	whiteSqr = "■"
 	blackSqr = " "
@@ -20,11 +18,9 @@ func (c *Cell) String(hasAnt bool) string {
 	if hasAnt {
 		return ""
 	}
-	var sb strings.Builder
 	if c.state {
-		sb.WriteString(whiteSqr)
+		return whiteSqr
 	} else {
-		sb.WriteString(blackSqr)
+		return blackSqr
 	}
-	return sb.String()
 }

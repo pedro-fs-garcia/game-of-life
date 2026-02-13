@@ -3,10 +3,10 @@ package main
 type AntDirection uint8
 
 const (
-	north AntDirection = iota
-	east
-	south
-	west
+	NORTH AntDirection = iota
+	EAST
+	SOUTH
+	WEST
 )
 
 type Ant struct {
@@ -27,15 +27,15 @@ func (a *Ant) TurnLeft() {
 	a.direction = (a.direction + 3) % 4
 }
 
-func (a *Ant) Walk() {
+func (a *Ant) Walk(size uint8) {
 	switch a.direction {
 	case 0:
-		a.position.row = (a.position.row + 20 - 1) % 20
+		a.position.row = (a.position.row + size - 1) % size
 	case 1:
-		a.position.col = (a.position.col + 1) % 20
+		a.position.col = (a.position.col + 1) % size
 	case 2:
-		a.position.row = (a.position.row + 1) % 20
+		a.position.row = (a.position.row + 1) % size
 	case 3:
-		a.position.col = (a.position.col + 20 - 1) % 20
+		a.position.col = (a.position.col + size - 1) % size
 	}
 }
