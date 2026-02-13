@@ -118,6 +118,8 @@ Implement **two versions**:
 1. Dense grid (`[][]bool`)
 2. Sparse grid (`map[Point]struct{}`)
 
+→ See `langtons-ant/`
+
 ---
 
 ### 3. **Elementary Cellular Automata (Rule 30 / 90 / 110)**
