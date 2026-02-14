@@ -19,8 +19,8 @@ func (s *Strip) RollRound() {
 func (s *Strip) NewGeneration() {
 	for i := range s.cells {
 		pattern := s.cells[i].GetPattern(
-			s.cells[(i+s.length-1)%s.length],
-			s.cells[(i+s.length+1)%s.length])
+			&s.cells[(i+s.length-1)%s.length],
+			&s.cells[(i+s.length+1)%s.length])
 		s.cells[i].CalculateNextState(pattern, s.rule)
 	}
 }
@@ -28,7 +28,7 @@ func (s *Strip) NewGeneration() {
 func (s *Strip) String() string {
 	var sb strings.Builder
 	for i := range s.cells {
-		sb.WriteString(" " + s.cells[i].String() + " ")
+		sb.WriteString(" " + s.cells[i].Symbol() + " ")
 	}
 	return sb.String()
 }
@@ -36,7 +36,7 @@ func (s *Strip) String() string {
 func NewStrip(length int, rule []string) *Strip {
 	cells := make([]Cell, length)
 	for i := range cells {
-		cells[i] = Cell{false, true}
+		cells[i] = Cell{false, false}
 	}
 	cells[length/2].currentState = true
 	return &Strip{cells, length, rule}

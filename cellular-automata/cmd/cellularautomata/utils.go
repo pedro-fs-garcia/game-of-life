@@ -1,22 +1,14 @@
 package main
 
 import (
-	"math"
 	"strconv"
 	"strings"
 )
 
 func toDecimal(bin string) int {
 	decimal := 0
-	digits := strings.Split(bin, "")
-	l := len(bin)
-	for i := range bin {
-		index := (i + l - 1) % l
-		d, _ := strconv.Atoi(digits[index])
-		if d == 0 {
-			continue
-		}
-		decimal += int(math.Pow(2, float64(i)))
+	for i := 0; i < len(bin); i++ {
+		decimal = decimal*2 + int(bin[i]-'0')
 	}
 	return decimal
 }

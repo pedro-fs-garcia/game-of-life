@@ -9,6 +9,13 @@ func (c *Cell) String() string {
 	if c.currentState {
 		return "1"
 	}
+	return "0"
+}
+
+func (c *Cell) Symbol() string {
+	if c.currentState {
+		return "1"
+	}
 	return " "
 }
 
@@ -20,7 +27,7 @@ func (c *Cell) RollRound() {
 	c.currentState = c.nextState
 }
 
-func (c *Cell) GetPattern(left, right Cell) string {
+func (c *Cell) GetPattern(left, right *Cell) string {
 	pattern := left.String() + c.String() + right.String()
 	return pattern
 }
