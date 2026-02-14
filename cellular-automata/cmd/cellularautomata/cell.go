@@ -32,8 +32,22 @@ func (c *Cell) GetPattern(left, right *Cell) string {
 	return pattern
 }
 
-func (c *Cell) CalculateNextState(pattern string, rule []string) {
-	decimal := toDecimal(pattern)
+func (c *Cell) GetPatternIndex(left, right *Cell) uint8 {
+	idx := uint8(0)
+	if left.currentState {
+		idx += 4
+	}
+	if c.currentState {
+		idx += 2
+	}
+	if right.currentState {
+		idx += 1
+	}
+	return idx
+}
+
+func (c *Cell) CalculateNextState(left, right *Cell, rule []string) {
+	decimal := c.GetPatternIndex(left, right)
 	d := getDigitFromRule(decimal, rule)
 	if d == 1 {
 		c.nextState = true

@@ -18,10 +18,10 @@ func (s *Strip) RollRound() {
 
 func (s *Strip) NewGeneration() {
 	for i := range s.cells {
-		pattern := s.cells[i].GetPattern(
+		s.cells[i].CalculateNextState(
 			&s.cells[(i+s.length-1)%s.length],
-			&s.cells[(i+s.length+1)%s.length])
-		s.cells[i].CalculateNextState(pattern, s.rule)
+			&s.cells[(i+s.length+1)%s.length],
+			s.rule)
 	}
 }
 
