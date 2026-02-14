@@ -3,21 +3,30 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
-var Cells []Cell = make([]Cell, 30)
+func NewRule(n uint8) []string {
+	bin := toBinary(n)
+	var rb strings.Builder
+	padding := 8 - len(bin)
+	for range padding {
+		rb.WriteString("0")
+	}
+	rb.WriteString(bin)
+	return strings.Split(rb.String(), "")
+}
 
 func main() {
-	for i := range Cells {
-		if i%2 == 0 {
-			Cells[i] = Cell{true, false}
-		} else {
-			Cells[i] = Cell{false, false}
-		}
+	rule := NewRule(30)
+	fmt.Println(rule)
+	strip := NewStrip(30, rule)
+	fmt.Println(strip)
+
+	for {
+		time.Sleep(1 * time.Second)
+		strip.NewGeneration()
+		strip.RollRound()
+		fmt.Println(strip)
 	}
-	var sb strings.Builder
-	for i := range Cells {
-		sb.WriteString(" " + Cells[i].String() + " ")
-	}
-	fmt.Println(sb.String())
 }

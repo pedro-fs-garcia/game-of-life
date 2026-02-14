@@ -9,7 +9,7 @@ func (c *Cell) String() string {
 	if c.currentState {
 		return "1"
 	}
-	return "0"
+	return " "
 }
 
 func (c *Cell) SetNextState(nextState bool) {
@@ -18,4 +18,19 @@ func (c *Cell) SetNextState(nextState bool) {
 
 func (c *Cell) RollRound() {
 	c.currentState = c.nextState
+}
+
+func (c *Cell) GetPattern(left, right Cell) string {
+	pattern := left.String() + c.String() + right.String()
+	return pattern
+}
+
+func (c *Cell) CalculateNextState(pattern string, rule []string) {
+	decimal := toDecimal(pattern)
+	d := getDigitFromRule(decimal, rule)
+	if d == 1 {
+		c.nextState = true
+	} else {
+		c.nextState = false
+	}
 }
