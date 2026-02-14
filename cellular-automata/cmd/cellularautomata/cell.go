@@ -46,7 +46,7 @@ func (c *Cell) GetPatternIndex(left, right *Cell) uint8 {
 	return idx
 }
 
-func (c *Cell) CalculateNextState(left, right *Cell, rule []string) {
+func (c *Cell) CalculateNextState(left, right *Cell, rule uint8) {
 	decimal := c.GetPatternIndex(left, right)
 	d := getDigitFromRule(decimal, rule)
 	if d == 1 {

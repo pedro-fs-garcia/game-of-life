@@ -38,23 +38,12 @@ func askForRule(reader *bufio.Reader) (uint8, error) {
 	return uint8(n), nil
 }
 
-func NewRule(n uint8) []string {
-	bin := toBinary(n)
-	var rb strings.Builder
-	padding := 8 - len(bin)
-	for range padding {
-		rb.WriteString("0")
-	}
-	rb.WriteString(bin)
-	return strings.Split(rb.String(), "")
-}
-
-func GetRule(reader *bufio.Reader) ([]string, error) {
-	n, err := askForRule(reader)
+func GetRule(reader *bufio.Reader) (uint8, error) {
+	rule, err := askForRule(reader)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	return NewRule(n), nil
+	return rule, nil
 }
 
 func main() {

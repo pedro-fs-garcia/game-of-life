@@ -7,7 +7,7 @@ import (
 type Strip struct {
 	cells  []Cell
 	length int
-	rule   []string
+	rule   uint8
 }
 
 func (s *Strip) RollRound() {
@@ -33,7 +33,7 @@ func (s *Strip) String() string {
 	return sb.String()
 }
 
-func NewStrip(length int, rule []string) *Strip {
+func NewStrip(length int, rule uint8) *Strip {
 	cells := make([]Cell, length)
 	for i := range cells {
 		cells[i] = Cell{false, false}
