@@ -13,7 +13,7 @@ tasks:
       - go build -o ../{{.BIN_DIR}}/gameoflife{{exeExt}} ./cmd/app
 
   gameoflife:run:
-    desc: Executa o Conway's Game of Life
+    desc: Executes Conway's Game of Life
     dir: "{{.GAMEOFLIFE_DIR}}"
     cmds:
       - go run ./cmd/app
@@ -31,7 +31,19 @@ tasks:
       - go build -o ../{{.BIN_DIR}}/langtonsant{{exeExt}} ./cmd/langtonsant
   
   langtons-ant:run:
-    desc: Executa o Langton's Ant
+    desc: Executes Langton's Ant
     dir: "{{.LANGTONSANT_DIR}}"
     cmds:
       - go run ./cmd/langtonsant
+
+  cellular-automata:build:
+    desc: Build Elementary Cellular Automata
+    dir: "./cellular-automata"
+    cmds:
+      - go build -o ../{{.BIN_DIR}}/cellularautomata{{exeExt}} ./cmd/cellularautomata
+  
+  cellular-automata:run:
+    desc: Executes Elementary Cellular Automata
+    dir: "./cellular-automata"
+    cmds:
+      - go run ./cmd/cellularautomata
