@@ -15,7 +15,7 @@ func toDecimal(bin string) int {
 
 func getDigitFromRule(decimal int, rule []string) int {
 	i := len(rule) - 1 - decimal
-	digit, _ := strconv.Atoi(rule[i])
+	digit, _ := strconv.Atoi(rule[i]) // rule is astring made of "0"s and "1"s only
 	return digit
 }
 
