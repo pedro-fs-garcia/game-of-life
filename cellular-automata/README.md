@@ -103,3 +103,68 @@ Equivalent to `left XOR right`. Produces the **Sierpinski triangle** fractal.
 | Result  |  0  |  1  |  1  |  0  |  1  |  1  |  1  |  0  |
 
 Proven to be **Turing-complete** — capable of universal computation.
+
+---
+
+## Usage
+
+When running, you will be prompted to enter a rule number (0-255).
+Press **Enter** to use the default rule (30).
+
+The strip is printed at each generation, updating every second.
+
+---
+
+## Build and Run
+
+> From the **repository root**, using Taskfile (recommended, cross-platform):
+
+```bash
+# Run Cellular Automata
+task cellular-automata:run
+
+# Build binary to ./bin
+task cellular-automata:build
+```
+
+> Alternatively, from the repository root using Make (Unix-like systems):
+
+```bash
+# Run directly
+make run EXERCISE=cellular-automata
+
+# Build binary
+make build EXERCISE=cellular-automata
+./bin/cellular-automata
+```
+
+---
+
+## Project Structure
+
+```
+cellular-automata/
+├── cmd/cellularautomata/
+│   ├── main.go     # Entry point, handles rule input and runs the simulation
+│   ├── cell.go     # Cell state and next-state calculation
+│   ├── strip.go    # 1D strip of cells with toroidal boundary
+│   └── utils.go    # Binary/decimal conversion utilities
+├── go.mod          # Go module definition (exercise is self-contained)
+```
+---
+
+## Core Components
+
+* **Cell**
+  Represents individual cell state (current/next) and computes transitions based on the 3-bit neighborhood pattern.
+
+* **Strip**
+  Manages the 1D array of cells, applies toroidal wrapping, and coordinates generation updates.
+
+---
+
+## Notes
+
+* This module is **completely independent** and can be run without Taskfile or Make.
+* `Taskfile` and `Makefile` are **developer convenience tools only** and are not runtime dependencies.
+* The project follows idiomatic Go structure (`cmd/`, isolated modules, explicit dependencies).

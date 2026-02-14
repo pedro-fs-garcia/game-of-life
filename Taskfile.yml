@@ -4,6 +4,7 @@ vars:
   BIN_DIR: bin
   GAMEOFLIFE_DIR: gameoflife
   LANGTONSANT_DIR: langtons-ant
+  CELLULARAUTOMATA_DIR: cellular-automata
 
 tasks:
   gameoflife:build:
@@ -38,12 +39,12 @@ tasks:
 
   cellular-automata:build:
     desc: Build Elementary Cellular Automata
-    dir: "./cellular-automata"
+    dir: "{{.CELLULARAUTOMATA_DIR}}"
     cmds:
       - go build -o ../{{.BIN_DIR}}/cellularautomata{{exeExt}} ./cmd/cellularautomata
   
   cellular-automata:run:
     desc: Executes Elementary Cellular Automata
-    dir: "./cellular-automata"
+    dir: "{{.CELLULARAUTOMATA_DIR}}"
     cmds:
       - go run ./cmd/cellularautomata

@@ -70,6 +70,8 @@ task gameoflife:run
 
 ```bash
 make run EXERCISE=gameoflife
+make run EXERCISE=cellular-automata
+make run EXERCISE=langtons-ant
 ```
 
 > Tooling is **for developer convenience only**.

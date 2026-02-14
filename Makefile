@@ -2,15 +2,21 @@ BIN_DIR := bin
 EXERCISE ?= gameoflife
 BINARY := $(BIN_DIR)/$(EXERCISE)
 
+# Map exercise to its cmd directory
+CMD_gameoflife := app
+CMD_langtons-ant := langtonsant
+CMD_cellular-automata := cellularautomata
+CMD_DIR := $(CMD_$(EXERCISE))
+
 .PHONY: build run tidy fmt test vet clean check
 
 build:
 	cd $(EXERCISE) && \
-	go build -o ../$(BINARY) ./cmd/app
+	go build -o ../$(BINARY) ./cmd/$(CMD_DIR)
 
 run:
 	cd $(EXERCISE) && \
-	go run ./cmd/app
+	go run ./cmd/$(CMD_DIR)
 
 tidy:
 	cd $(EXERCISE) && \

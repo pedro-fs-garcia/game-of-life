@@ -19,8 +19,8 @@ func GetInput(reader *bufio.Reader) (string, error) {
 }
 
 func askForRule(reader *bufio.Reader) (uint8, error) {
-	fmt.Println("Insert rule to be used. Values accepted: 1 - 256. Press enter for default value (30)")
-	localError := fmt.Errorf("Invalid input. Enter a number between 1 and 256")
+	fmt.Println("Insert rule to be used. Values accepted: 0 - 255. Press enter for default value (30)")
+	localError := fmt.Errorf("Invalid input. Enter a number between 0 and 255")
 	input, err := GetInput(reader)
 	if err != nil {
 		return 0, localError
@@ -32,7 +32,7 @@ func askForRule(reader *bufio.Reader) (uint8, error) {
 	if err != nil {
 		return 0, localError
 	}
-	if n < 1 || n > 256 {
+	if n < 0 || n > 255 {
 		return 0, localError
 	}
 	return uint8(n), nil
