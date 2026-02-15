@@ -100,28 +100,8 @@ The exercises are intentionally ordered by **conceptual and Go-specific difficul
 
 ### 2. **Langton’s Ant**
 
-**Why:** Same cellular-automaton family as Game of Life, but introduces **stateful agents**.
-
-**Rules:**
-
-* Infinite grid (simulated with bounds)
-* Ant has position + direction
-* White → turn right, flip to black
-* Black → turn left, flip to white
-* Move forward
-
-**Forces you to learn:**
-
-* `struct` modeling (`Ant`, `Direction`)
-* enums via `iota`
-* `map` vs `[][]bool`
-* mutability & value semantics
-
-**Constraint:**
-Implement **two versions**:
-
-1. Dense grid (`[][]bool`)
-2. Sparse grid (`map[Point]struct{}`)
+**Focus:** stateful agent movement, direction handling, wrap-around logic
+**Key concepts:** agent state (position + direction), cell toggling, toroidal grid
 
 → See `langtons-ant/`
 
@@ -129,123 +109,32 @@ Implement **two versions**:
 
 ### 3. **Elementary Cellular Automata (Rule 30 / 90 / 110)**
 
-**Why:** Simple rules, brutal indexing discipline.
-
-**Rules:**
-
-* 1D array of cells
-* Next state depends on `(left, self, right)`
-* Rule encoded as a number (e.g. 30)
-
-**Forces you to learn:**
-
-* bitwise operations
-* slice copying vs reuse
-* avoiding aliasing
-* mutation vs purity
-
-**Stretch goal:**
-Generalize to arbitrary rule numbers without `if` chains.
+**Focus:** 1D cellular automata, Wolfram rule encoding, pattern-to-index conversion
+**Key concepts:** indexing discipline, bitwise operations, wrap-around boundaries
+→ See `cellular-automata/`
 
 ---
 
 ### 4. **Wireworld**
 
-**Why:** Introduces **multiple cell states** (4) and **directional signal propagation**. Simulates digital logic circuits.
-
-**Cell States:**
-
-| State | Name | Description |
-|-------|------|-------------|
-| 0 | Empty | Blank space, never changes |
-| 1 | Conductor | Wire that can carry electrons |
-| 2 | Electron Head | Active electron, front of signal |
-| 3 | Electron Tail | Decaying electron, back of signal |
-
-**Transition Rules (simultaneous):**
-
-1. Empty → Empty (always)
-2. Electron Head → Electron Tail (always)
-3. Electron Tail → Conductor (always)
-4. Conductor → Electron Head if **exactly 1 or 2** Moore neighbors are Electron Heads
-5. Conductor → Conductor otherwise
-
-**Forces you to learn:**
-
-* Multi-state enums with `iota`
-* Double buffering for synchronous updates
-* Neighbor counting with boundary handling
-* Struct composition for grid + state
-
-**Constraint:**
-Implement at least one logic gate (OR, AND, or XOR) as a test pattern.
-
+**Focus:** Introduces **multiple cell states** (4) and **directional signal propagation**. Simulates digital logic circuits.
+**Key concepts:** multiple cell states (4); directional signal propagation; Simulates digital logic circuits.
 → See `wireworld/`
 
 ---
 
 ### 5. **Brian's Brain**
 
-**Why:** 3-state automaton with **chaotic, self-organizing behavior**. Simpler than Wireworld but forces precise state machine logic.
-
-**Cell States:** Off (0), On (1), Dying (2)
-
-**Transition Rules (simultaneous, toroidal grid):**
-
-1. Off → On if **exactly 2** Moore neighbors are On
-2. On → Dying (always)
-3. Dying → Off (always)
-
-**Forces you to learn:**
-
-* Modular arithmetic for wrap-around indexing (toroidal topology)
-* Value semantics vs pointer semantics for grid
-* Method receivers on custom types
-* Named types: `type State uint8`
-
-**Constraint:**
-Grid must support arbitrary dimensions passed at construction.
-
+**Focus:** 3-state automaton with chaotic, self-organizing behavior
+**Key concepts:** modular arithmetic, toroidal topology, named types (`type State uint8`)
 → See `briansbrain/`
 
 ---
 
 ### 6. **Turmite (Generalized Langton's Ant)**
 
-**Why:** Multi-state, multi-color extension of Langton's Ant. Forces explicit **state machine design** with **transition tables**.
-
-**Turmite State:**
-
-* Position (x, y)
-* Direction (N, E, S, W)
-* Internal state (0 to S-1)
-
-**Cell State:** Color (0 to C-1)
-
-**Transition Table:**
-`T[state][color] → (newColor, turn, newState)`
-
-Where `turn` ∈ {None, Left, Right, U-turn}
-
-**Execution (each step):**
-
-1. Read current cell color
-2. Look up `(state, color)` in table
-3. Write new color to cell
-4. Turn according to table
-5. Set new internal state
-6. Move forward one cell
-
-**Forces you to learn:**
-
-* Multi-dimensional lookup tables
-* State machine as data structure
-* Validation of configuration at construction
-* Sparse grid (`map[Point]Color`) for infinite expansion
-
-**Constraint:**
-Transition table must be a 2D slice: `[][]Transition`. Validate all entries at construction.
-
+**Focus:** multi-state, multi-color agent with transition tables
+**Key concepts:** multi-dimensional lookup tables, state machine design, sparse grid (`map[Point]Color`)
 → See `turmite/`
 
 ---
@@ -254,41 +143,17 @@ Transition table must be a 2D slice: `[][]Transition`. Validate all entries at c
 
 ### 7. **Flood Fill (Multiple Variants)**
 
-**Why:** Teaches recursion limits and explicit stack management.
-
-**Variants:**
-
-1. Recursive DFS
-2. Iterative DFS (explicit stack)
-3. BFS (queue)
-
-**Forces you to learn:**
-
-* slice-based stacks/queues
-* bounds checking
-* struct reuse
-* avoiding recursion overflow
+**Focus:** recursion limits, explicit stack management
+**Key concepts:** slice-based stacks/queues, bounds checking, avoiding recursion overflow
+→ See `flood-fill/`
 
 ---
 
 ### 8. **Union–Find (Disjoint Set Union)**
 
-**Why:** Pure logic, extremely common in real systems.
-
-**Operations:**
-
-* `Find(x)`
-* `Union(x, y)`
-* Path compression
-
-**Forces you to learn:**
-
-* slices vs maps for parent tracking
-* method receivers
-* invariants and mutation safety
-
-**Constraint:**
-Implement **one slice-based** and **one map-based** version.
+**Focus:** disjoint set data structure, path compression
+**Key concepts:** slices vs maps for parent tracking, method receivers, invariants
+→ See `union-find/`
 
 ---
 
@@ -296,44 +161,17 @@ Implement **one slice-based** and **one map-based** version.
 
 ### 9. **Event Simulation Engine (Discrete Time)**
 
-**Why:** Looks simple, becomes very Go-specific very fast.
-
-**Problem:**
-
-* Events have timestamps
-* Events can schedule future events
-* Engine processes events in time order
-
-**Forces you to learn:**
-
-* priority queues (`container/heap`)
-* interfaces
-* explicit state transitions
-* error propagation
-
-**No UI.** Final state is asserted.
+**Focus:** discrete event simulation, time-ordered processing
+**Key concepts:** priority queues (`container/heap`), interfaces, error propagation
+→ See `event-simulation/`
 
 ---
 
 ### 10. **A* Pathfinding on a Grid**
 
-**Why:** Well-known, algorithmically rich, zero fluff.
-
-**Rules:**
-
-* Grid with obstacles
-* Manhattan distance heuristic
-* Return path or error
-
-**Forces you to learn:**
-
-* maps keyed by structs
-* priority queues (again)
-* ownership of state
-* error handling vs sentinel values
-
-**Constraint:**
-No global variables. Everything passed explicitly.
+**Focus:** pathfinding algorithm, heuristic search
+**Key concepts:** maps keyed by structs, priority queues, error handling vs sentinel values
+→ See `astar/`
 
 ---
 
@@ -341,38 +179,17 @@ No global variables. Everything passed explicitly.
 
 ### 11. **Immutable vs Mutable Data Experiment**
 
-**Exercise, not a program.**
-
-Implement the same algorithm twice:
-
-* once mutating in place
-* once returning new values
-
-Measure:
-
-* allocations
-* clarity
-* bug surface
-
-This is where Go thinking diverges sharply from Python/TypeScript.
+**Focus:** comparing mutation vs value semantics
+**Key concepts:** allocations, clarity vs performance, Go idioms
+→ See `immutability/`
 
 ---
 
 ### 12. **Byte-Level Parser (No Regex)**
 
-**Why:** Go excels here; higher-level languages often hide this.
-
-**Task:**
-
-* Parse a tiny DSL or config format
-* No regex
-* No `strings.Split` abuse
-
-**Forces you to learn:**
-
-* `byte` vs `rune`
-* explicit state machines
-* precise error returns
+**Focus:** low-level parsing without regex or string splitting
+**Key concepts:** `byte` vs `rune`, explicit state machines, precise error returns
+→ See `byte-parser/`
 
 ---
 
