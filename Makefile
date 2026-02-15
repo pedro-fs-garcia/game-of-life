@@ -6,6 +6,7 @@ BINARY := $(BIN_DIR)/$(EXERCISE)
 CMD_gameoflife := app
 CMD_langtons-ant := langtonsant
 CMD_cellular-automata := cellularautomata
+cmd_wireworld := wireworld
 CMD_DIR := $(CMD_$(EXERCISE))
 
 .PHONY: build run tidy fmt test vet clean check

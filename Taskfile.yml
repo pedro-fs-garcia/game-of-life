@@ -5,6 +5,7 @@ vars:
   GAMEOFLIFE_DIR: gameoflife
   LANGTONSANT_DIR: langtons-ant
   CELLULARAUTOMATA_DIR: cellular-automata
+  WIREWORLD_DIR: wireworld
 
 tasks:
   gameoflife:build:
@@ -48,3 +49,15 @@ tasks:
     dir: "{{.CELLULARAUTOMATA_DIR}}"
     cmds:
       - go run ./cmd/cellularautomata
+
+  wireworld:build:
+    desc: Build Wireworld
+    dir: "{{.WIREWORLD_DIR}}"
+    cmds:
+      - go build -o ../{{.BIN_DIR}}/wireworld{{exeExt}} ./cmd/wireworld
+
+  wireworld:run:
+    desc: Executes Wireworld
+    dir: "{{.WIREWORLD_DIR}}"
+    cmds:
+      - go run ./cmd/wireworld

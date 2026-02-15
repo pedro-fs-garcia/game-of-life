@@ -32,6 +32,9 @@ The goal is to build **Go muscle memory**, not demos.
 ├── gameoflife/
 ├── langtons-ant/
 ├── cellular-automata/
+├── wireworld/
+├── briansbrain/
+├── turmite/
 ├── flood-fill/
 ├── union-find/
 ├── event-simulation/
@@ -146,9 +149,110 @@ Generalize to arbitrary rule numbers without `if` chains.
 
 ---
 
+### 4. **Wireworld**
+
+**Why:** Introduces **multiple cell states** (4) and **directional signal propagation**. Simulates digital logic circuits.
+
+**Cell States:**
+
+| State | Name | Description |
+|-------|------|-------------|
+| 0 | Empty | Blank space, never changes |
+| 1 | Conductor | Wire that can carry electrons |
+| 2 | Electron Head | Active electron, front of signal |
+| 3 | Electron Tail | Decaying electron, back of signal |
+
+**Transition Rules (simultaneous):**
+
+1. Empty → Empty (always)
+2. Electron Head → Electron Tail (always)
+3. Electron Tail → Conductor (always)
+4. Conductor → Electron Head if **exactly 1 or 2** Moore neighbors are Electron Heads
+5. Conductor → Conductor otherwise
+
+**Forces you to learn:**
+
+* Multi-state enums with `iota`
+* Double buffering for synchronous updates
+* Neighbor counting with boundary handling
+* Struct composition for grid + state
+
+**Constraint:**
+Implement at least one logic gate (OR, AND, or XOR) as a test pattern.
+
+→ See `wireworld/`
+
+---
+
+### 5. **Brian's Brain**
+
+**Why:** 3-state automaton with **chaotic, self-organizing behavior**. Simpler than Wireworld but forces precise state machine logic.
+
+**Cell States:** Off (0), On (1), Dying (2)
+
+**Transition Rules (simultaneous, toroidal grid):**
+
+1. Off → On if **exactly 2** Moore neighbors are On
+2. On → Dying (always)
+3. Dying → Off (always)
+
+**Forces you to learn:**
+
+* Modular arithmetic for wrap-around indexing (toroidal topology)
+* Value semantics vs pointer semantics for grid
+* Method receivers on custom types
+* Named types: `type State uint8`
+
+**Constraint:**
+Grid must support arbitrary dimensions passed at construction.
+
+→ See `briansbrain/`
+
+---
+
+### 6. **Turmite (Generalized Langton's Ant)**
+
+**Why:** Multi-state, multi-color extension of Langton's Ant. Forces explicit **state machine design** with **transition tables**.
+
+**Turmite State:**
+
+* Position (x, y)
+* Direction (N, E, S, W)
+* Internal state (0 to S-1)
+
+**Cell State:** Color (0 to C-1)
+
+**Transition Table:**
+`T[state][color] → (newColor, turn, newState)`
+
+Where `turn` ∈ {None, Left, Right, U-turn}
+
+**Execution (each step):**
+
+1. Read current cell color
+2. Look up `(state, color)` in table
+3. Write new color to cell
+4. Turn according to table
+5. Set new internal state
+6. Move forward one cell
+
+**Forces you to learn:**
+
+* Multi-dimensional lookup tables
+* State machine as data structure
+* Validation of configuration at construction
+* Sparse grid (`map[Point]Color`) for infinite expansion
+
+**Constraint:**
+Transition table must be a 2D slice: `[][]Transition`. Validate all entries at construction.
+
+→ See `turmite/`
+
+---
+
 ## Phase 2 — Graphs, Maps, and Explicit Algorithms
 
-### 4. **Flood Fill (Multiple Variants)**
+### 7. **Flood Fill (Multiple Variants)**
 
 **Why:** Teaches recursion limits and explicit stack management.
 
@@ -167,7 +271,7 @@ Generalize to arbitrary rule numbers without `if` chains.
 
 ---
 
-### 5. **Union–Find (Disjoint Set Union)**
+### 8. **Union–Find (Disjoint Set Union)**
 
 **Why:** Pure logic, extremely common in real systems.
 
@@ -190,7 +294,7 @@ Implement **one slice-based** and **one map-based** version.
 
 ## Phase 3 — Algorithms That Punish Loose Typing
 
-### 6. **Event Simulation Engine (Discrete Time)**
+### 9. **Event Simulation Engine (Discrete Time)**
 
 **Why:** Looks simple, becomes very Go-specific very fast.
 
@@ -211,7 +315,7 @@ Implement **one slice-based** and **one map-based** version.
 
 ---
 
-### 7. **A* Pathfinding on a Grid**
+### 10. **A* Pathfinding on a Grid**
 
 **Why:** Well-known, algorithmically rich, zero fluff.
 
@@ -235,7 +339,7 @@ No global variables. Everything passed explicitly.
 
 ## Phase 4 — Go-Specific Muscle Memory
 
-### 8. **Immutable vs Mutable Data Experiment**
+### 11. **Immutable vs Mutable Data Experiment**
 
 **Exercise, not a program.**
 
@@ -254,7 +358,7 @@ This is where Go thinking diverges sharply from Python/TypeScript.
 
 ---
 
-### 9. **Byte-Level Parser (No Regex)**
+### 12. **Byte-Level Parser (No Regex)**
 
 **Why:** Go excels here; higher-level languages often hide this.
 
