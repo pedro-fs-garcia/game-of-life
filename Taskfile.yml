@@ -6,6 +6,7 @@ vars:
   LANGTONSANT_DIR: langtons-ant
   CELLULARAUTOMATA_DIR: cellular-automata
   WIREWORLD_DIR: wireworld
+  BRIANSBRAIN_DIR: brians-brain
 
 tasks:
   gameoflife:build:
@@ -61,3 +62,15 @@ tasks:
     dir: "{{.WIREWORLD_DIR}}"
     cmds:
       - go run ./cmd/wireworld
+
+  brians-brain:build:
+    desc: Build Brian's Brain
+    dir: "{{.BRIANSBRAIN_DIR}}"
+    cmds:
+      - go build -o ../{{.BIN_DIR}}/briansbrain{{exeExt}} ./cmd/briansbrain
+  
+  brians-brain:run:
+    desc: Executes Brian's Brain
+    dir: "{{.BRIANSBRAIN_DIR}}"
+    cmds:
+      - go run ./cmd/brians-brain
