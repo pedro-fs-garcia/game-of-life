@@ -1,7 +1,7 @@
-package main
+package cell
 
 type Coord struct {
-	row, col uint8
+	Row, Col uint8
 }
 
 var dirs = [8][2]int8{
@@ -13,8 +13,8 @@ var dirs = [8][2]int8{
 func (c *Coord) Neighbors(rows uint8, cols uint8) []Coord {
 	var n []Coord
 	for d := range dirs {
-		row := int8(c.row) + dirs[d][0]
-		col := int8(c.col) + dirs[d][1]
+		row := int8(c.Row) + dirs[d][0]
+		col := int8(c.Col) + dirs[d][1]
 		if row < 0 || row >= int8(rows) || col < 0 || col >= int8(cols) {
 			continue
 		}

@@ -3,15 +3,18 @@ package main
 import (
 	"fmt"
 	"time"
+	"wireworld/board"
+	"wireworld/cell"
+	"wireworld/gates"
 )
 
-func setCircuit() *Grid {
-	grid := NewGrid(20)
-	grid.InsertDiode(Coord{9, 6}, LEFT_TO_RIGHT)
+func setCircuit() *board.Grid {
+	grid := board.NewGrid(20)
+	grid.InsertDiode(cell.Coord{Row: 9, Col: 6}, gates.LEFT_TO_RIGHT)
 	return grid
 }
 
-func StartCircuit(grid *Grid) {
+func StartCircuit(grid *board.Grid) {
 	for t := 0; t < 100; t++ {
 		fmt.Printf("t = %d\n", t)
 		fmt.Println(grid)
