@@ -10,7 +10,9 @@ import (
 
 func setCircuit() *board.Grid {
 	grid := board.NewGrid(20)
-	grid.InsertDiode(cell.Coord{Row: 9, Col: 6}, gates.LEFT_TO_RIGHT)
+	diode := gates.NewDiode(cell.Coord{Row: 9, Col: 6}, gates.LEFT_TO_RIGHT)
+	grid.InsertBattery(cell.Coord{Row: 10, Col: 0})
+	grid.InsertGate(diode)
 	return grid
 }
 

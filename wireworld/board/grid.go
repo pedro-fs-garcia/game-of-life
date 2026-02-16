@@ -2,8 +2,8 @@ package board
 
 import (
 	"strings"
-	"wireworld/gates"
 	"wireworld/cell"
+	"wireworld/gates"
 )
 
 type Grid struct {
@@ -111,12 +111,21 @@ func NewEmptyGrid(size uint8) *Grid {
 	return &Grid{size, size, cells}
 }
 
-func (g *Grid) InsertDiode(origin cell.Coord, orient gates.Orientation) {
-	diode := gates.NewDiode(origin, orient)
-	for i := range len(diode.Cells) {
-		for j := range len(diode.Cells[i]) {
-			c := diode.Cells[i][j]
-			g.cells[c.Coord.Row][c.Coord.Col] = diode.Cells[i][j]
+func (g *Grid) InsertBattery(origin cell.Coord) {
+	battery := gates.NewBattery(origin)
+	for i := range battery.Cells {
+		for j := range battery.Cells[i] {
+			c := battery.Cells[i][j]
+			g.cells[c.Coord.Row][c.Coord.Col] = battery.Cells[i][j]
+		}
+	}
+}
+
+func (g *Grid) InsertGate(gate *gates.Gate) {
+	for i := range gate.Cells {
+		for j := range gate.Cells[i] {
+			c := gate.Cells[i][j]
+			g.cells[c.Coord.Row][c.Coord.Col] = gate.Cells[i][j]
 		}
 	}
 }
