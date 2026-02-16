@@ -68,9 +68,9 @@ func (g *Grid) RunClock() {
 	}
 }
 
-func NewCircuit() []cell.Cell {
-	c := make([]cell.Cell, 20)
-	for i := range 20 {
+func NewCircuit(size uint8) []cell.Cell {
+	c := make([]cell.Cell, size)
+	for i := range size {
 		switch i {
 		case 1:
 			c[i] = cell.NewCell(10, uint8(i), cell.TAIL)
@@ -86,10 +86,6 @@ func NewCircuit() []cell.Cell {
 func NewGrid(size uint8) *Grid {
 	cells := make([][]cell.Cell, size)
 	for i := range size {
-		if i == 10 {
-			cells[i] = NewCircuit()
-			continue
-		}
 		row := make([]cell.Cell, size)
 		for j := range size {
 			row[j] = cell.NewCell(uint8(i), uint8(j), cell.EMPTY)

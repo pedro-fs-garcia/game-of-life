@@ -9,12 +9,14 @@ import (
 )
 
 func setCircuit() *board.Grid {
-	grid := board.NewGrid(20)
-	diode := gates.NewDiode(cell.Coord{Row: 9, Col: 6}, gates.LEFT_TO_RIGHT)
-	orGate := gates.NewOrGate(cell.Coord{Row: 10, Col: 12}, gates.LEFT_TO_RIGHT)
-	grid.InsertBattery(cell.Coord{Row: 10, Col: 0})
+	grid := board.NewGrid(40)
+	diode := gates.NewDiode(cell.Coord{Row: 0, Col: 3}, gates.LEFT_TO_RIGHT)
+	orGate := gates.NewOrGate(cell.Coord{Row: 1, Col: 8}, gates.LEFT_TO_RIGHT)
+	xorGate := gates.NewXorGate(cell.Coord{Row: 3, Col: 13}, gates.LEFT_TO_RIGHT)
+	grid.InsertBattery(cell.Coord{Row: 1, Col: 0})
 	grid.InsertGate(diode)
 	grid.InsertGate(orGate)
+	grid.InsertGate(xorGate)
 	return grid
 }
 
