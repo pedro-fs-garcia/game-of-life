@@ -5,15 +5,23 @@ import (
 	"time"
 )
 
-func main() {
+func setCircuit() *Grid {
 	grid := NewGrid(20)
-	c := Coord{grid.rows - 21, 10}
-	fmt.Println(c)
+	grid.InsertDiode(Coord{9, 6}, LEFT_TO_RIGHT)
+	return grid
+}
+
+func StartCircuit(grid *Grid) {
 	for t := 0; t < 100; t++ {
-		fmt.Printf("%d\n", t)
+		fmt.Printf("t = %d\n", t)
 		fmt.Println(grid)
 		time.Sleep(1 * time.Second)
 		grid.NextGeneration()
 		grid.RunClock()
 	}
+}
+
+func main() {
+	grid := setCircuit()
+	StartCircuit(grid)
 }

@@ -77,3 +77,13 @@ func NewEmptyGrid(size uint8) *Grid {
 	}
 	return &Grid{size, size, cells}
 }
+
+func (g *Grid) InsertDiode(origin Coord, orient Orientation) {
+	diode := Diode(origin, orient)
+	for i := range len(diode) {
+		for j := range len(diode[i]) {
+			c := diode[i][j]
+			g.cells[c.coord.row][c.coord.col] = diode[i][j]
+		}
+	}
+}
