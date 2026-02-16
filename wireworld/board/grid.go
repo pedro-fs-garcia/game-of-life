@@ -129,3 +129,7 @@ func (g *Grid) InsertGate(gate *gates.Gate) {
 		}
 	}
 }
+
+func (g *Grid) SetWire(coord cell.Coord) {
+	g.cells[coord.Row][coord.Col] = cell.NewCell(coord.Row, coord.Col, cell.WIRE)
+}
