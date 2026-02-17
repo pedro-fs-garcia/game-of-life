@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func livingIndexes() []int {
 	idxs := make([]int, 40)
@@ -17,9 +20,11 @@ func livingIndexes() []int {
 func main() {
 	lc := livingIndexes()
 	grid := NewGrid(20, lc)
-	fmt.Println(grid)
-	grid.setNextState()
-	grid.Tick()
-	fmt.Println(grid)
+	for {
+		fmt.Println(grid)
+		time.Sleep(1 * time.Second)
+		grid.setNextState()
+		grid.Tick()
+	}
 
 }

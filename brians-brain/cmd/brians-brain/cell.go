@@ -11,7 +11,7 @@ const (
 var stateSymbolMap = map[CellState]rune{
 	ON:    '■',
 	OFF:   ' ',
-	DYING: '_',
+	DYING: '□',
 }
 
 type Cell struct {

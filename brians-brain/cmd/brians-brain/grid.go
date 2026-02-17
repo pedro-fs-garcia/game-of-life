@@ -34,32 +34,40 @@ func (g *Grid) Tick() {
 }
 
 func (g *Grid) CountLivingNeighbors(idx int) int {
-	l := len(g.cells)
-	s := g.size
-	ni := []int{
-		(idx - s - 1) % l, (idx - s) % l, (idx + 1) % l,
-		(idx - 1) % l, (idx + 1) % l,
-		(idx + s - 1) % l, (idx + s) % l, (idx + 1) % l,
-	}
+	size := g.size
+
+	row := idx / size
+	col := idx % size
+
 	living := 0
-	for i := range ni {
-		if g.cells[ni[i]].state == ON {
-			living++
+
+	for dr := -1; dr <= 1; dr++ {
+		for dc := -1; dc <= 1; dc++ {
+
+			if dr == 0 && dc == 0 {
+				continue
+			}
+
+			r := (row + dr + size) % size
+			c := (col + dc + size) % size
+
+			nIdx := r*size + c
+
+			if g.cells[nIdx].state == ON {
+				living++
+			}
 		}
 	}
+
 	return living
 }
 
 func (g *Grid) setNextState() {
 	for i := range g.cells {
-		switch g.cells[i].state {
-		case ON, OFF:
-			g.cells[i].rollNextState()
-		default:
-			if g.CountLivingNeighbors(i) == 2 {
-				g.cells[i].rollNextState()
-			}
+		if g.cells[i].state == OFF && g.CountLivingNeighbors(i) != 2 {
+			continue
 		}
+		g.cells[i].rollNextState()
 	}
 }
 
