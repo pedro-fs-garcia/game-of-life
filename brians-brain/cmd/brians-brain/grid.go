@@ -6,8 +6,9 @@ import (
 )
 
 type Grid struct {
-	size  int
-	cells []Cell
+	size        int
+	cells       []Cell
+	livingCells int
 }
 
 func (g *Grid) Index(row, col int) int {
@@ -28,9 +29,14 @@ func (g *Grid) String() string {
 }
 
 func (g *Grid) Tick() {
+	l := 0
 	for i := range g.cells {
 		g.cells[i].Tick()
+		if g.cells[i].state == ON {
+			l++
+		}
 	}
+	g.livingCells = l
 }
 
 func (g *Grid) CountLivingNeighbors(idx int) int {
@@ -73,12 +79,14 @@ func (g *Grid) setNextState() {
 
 func NewGrid(size int, livingIndexes []int) *Grid {
 	cells := make([]Cell, size*size)
+	living := 0
 	for i := range len(cells) {
 		if slices.Contains(livingIndexes, i) {
 			cells[i] = Cell{ON, OFF}
+			living++
 			continue
 		}
 		cells[i] = Cell{OFF, OFF}
 	}
-	return &Grid{size, cells}
+	return &Grid{size, cells, living}
 }

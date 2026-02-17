@@ -20,11 +20,12 @@ func livingIndexes() []int {
 func main() {
 	lc := livingIndexes()
 	grid := NewGrid(20, lc)
-	for {
-		fmt.Println(grid)
+	fmt.Println(grid)
+	for grid.livingCells > 0 {
 		time.Sleep(1 * time.Second)
 		grid.setNextState()
 		grid.Tick()
+		fmt.Println(grid)
 	}
 
 }
