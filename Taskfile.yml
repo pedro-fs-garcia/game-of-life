@@ -7,6 +7,7 @@ vars:
   CELLULARAUTOMATA_DIR: cellular-automata
   WIREWORLD_DIR: wireworld
   BRIANSBRAIN_DIR: brians-brain
+  UNIONFIND_DIR: union-find
 
 tasks:
   gameoflife:build:
@@ -74,3 +75,15 @@ tasks:
     dir: "{{.BRIANSBRAIN_DIR}}"
     cmds:
       - go run ./cmd/brians-brain
+
+  union-find:build:
+    desc: Build Union Find Exercise
+    dir: "{{.UNIONFIND_DIR}}"
+    cmds:
+      - go build -o ../{{.BIN_DIR}}/unionfind{{exeExt}} ./cmd/union-find
+
+  union-find:run:
+    desc: Executes Union Find
+    dir: "{{.UNIONFIND_DIR}}"
+    cmds:
+      - go run ./cmd/union-find
