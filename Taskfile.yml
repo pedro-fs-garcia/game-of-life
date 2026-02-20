@@ -7,6 +7,7 @@ vars:
   CELLULARAUTOMATA_DIR: cellular-automata
   WIREWORLD_DIR: wireworld
   BRIANSBRAIN_DIR: brians-brain
+  FLOODFILL_DIR: flood-fill
   UNIONFIND_DIR: union-find
 
 tasks:
@@ -75,6 +76,12 @@ tasks:
     dir: "{{.BRIANSBRAIN_DIR}}"
     cmds:
       - go run ./cmd/brians-brain
+
+  flood-fill:run:
+    desc: Executes Flood Fill
+    dir: "{{.FLOODFILL_DIR}}"
+    cmds:
+      - go run ./cmd/flood-fill
 
   union-find:build:
     desc: Build Union Find Exercise
