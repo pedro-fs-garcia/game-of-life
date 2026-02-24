@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"strings"
 )
 
@@ -56,15 +57,37 @@ func (g *Grid) Neighbors(row, col int, change Color) [][2]uint8 {
 	return n
 }
 
-func (g *Grid) Flood(change, target Color, origin [2]uint8) {
+func (g *Grid) RecursiveFlood(change, target Color, origin [2]uint8) {
 	if g.cells[origin[0]][origin[1]] == change {
 		g.cells[origin[0]][origin[1]] = target
 	} else {
 		return
 	}
 	for _, n := range g.Neighbors(int(origin[0]), int(origin[1]), change) {
-		g.Flood(change, target, n)
+		g.RecursiveFlood(change, target, n)
 	}
+}
+
+func (g *Grid) IterativeFlood(change, target Color, origin [2]uint8) {
+	q := [][2]uint8{origin}
+
+	for len(q) > 0 {
+		coord := q[0]
+		if g.cells[coord[0]][coord[1]] != change {
+			q = q[1:]
+			continue
+		}
+		g.cells[coord[0]][coord[1]] = target
+
+		for _, n := range g.Neighbors(int(coord[0]), int(coord[1]), change) {
+			if !slices.Contains(q, n) {
+				q = append(q, n)
+			}
+		}
+
+		q = q[1:]
+	}
+
 }
 
 func NewGrid(size uint8, initialCells map[Color][][2]uint8) *Grid {

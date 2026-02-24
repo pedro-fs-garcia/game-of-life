@@ -35,7 +35,8 @@ func main() {
 	fmt.Println("Initial grid:")
 	fmt.Println(grid)
 	origin := [2]uint8{0, 0}
-	grid.Flood(RED, GREEN, origin)
+	// grid.RecursiveFlood(RED, GREEN, origin)
+	grid.IterativeFlood(RED, GREEN, origin)
 	fmt.Println(grid)
 
 }
