@@ -67,12 +67,17 @@ func (g *Grid) Flood(change, target Color, origin [2]uint8) {
 	}
 }
 
-func NewGrid(size uint8) *Grid {
+func NewGrid(size uint8, initialCells map[Color][][2]uint8) *Grid {
 	cells := make([][]Color, size)
 	for i := range size {
 		cells[i] = make([]Color, size)
 		for j := range size {
-			cells[i][j] = RED
+			cells[i][j] = WALL
+		}
+	}
+	for color, coords := range initialCells {
+		for _, c := range coords {
+			cells[c[0]][c[1]] = color
 		}
 	}
 	return &Grid{size, cells}
