@@ -266,52 +266,6 @@ T[1][1] = (0, N, 0)
 
 ---
 
-## Exercise A7 — Seeds Automaton
-
-**Domain:** 2D cellular automaton with explosive growth.
-
-**Why:** Extremely simple rules but **exponential state change**. Tests grid performance.
-
----
-
-### Rules
-
-**Grid:** 2D finite grid (no wrap-around).
-
-**Cell States:** Binary (alive or dead).
-
-**Transition Rules:**
-
-1. **Dead → Alive** if **exactly 2 neighbors** are alive
-2. **Alive → Dead** (always)
-
-**Neighborhood:** 8-cell Moore neighborhood.
-
----
-
-### Key Insight
-
-Unlike Game of Life, a live cell **always dies**. This creates explosive, ephemeral patterns.
-
----
-
-### Implementation Constraints
-
-* Must handle rapid state changes efficiently
-* Track population count per generation
-* Terminate if grid becomes entirely dead
-* Benchmark: 1000 generations on 500×500 grid in < 1 second
-
----
-
-### Forces You to Learn
-
-* Performance optimization
-* Early termination conditions
-* Allocation profiling
-* Slice vs map for dense/sparse patterns
-
----
 
 ## Exercise B1 — Flood Fill (Multiple Variants)
 
@@ -634,14 +588,17 @@ For all exercises:
 
 ## Difficulty Progression
 
-| Exercise | States | Dimensions | Complexity |
-|----------|--------|------------|------------|
-| Seeds | 2 | 2D | ★☆☆ |
-| Brian's Brain | 3 | 2D | ★☆☆ |
-| Cyclic | N | 2D | ★★☆ |
-| Wireworld | 4 | 2D | ★★☆ |
-| 1D Totalistic | 3 | 1D | ★★☆ |
-| Falling Sand | 4 | 2D | ★★★ |
-| Turmite | S×C | 2D | ★★★ |
+| Exercise               | States | Dimensions | Complexity |
+|------------------------|--------|------------|------------|
+| Cyclic (A3)            | N      | 2D         | ★★☆        |
+| 1D Totalistic (A5)     | 3      | 1D         | ★★☆        |
+| Flood Fill (B1)        | N      | 2D         | ★★☆        |
+| Union–Find (B2)        | —      | —          | ★★☆        |
+| Immutable/Mutable (B5) | —      | —          | ★★☆        |
+| Falling Sand (A4)      | 4      | 2D         | ★★★        |
+| Turmite (A6)           | S×C    | 2D         | ★★★        |
+| A* Pathfinding (B4)    | 2      | 2D         | ★★★        |
+| Event Simulation (B3)  | —      | —          | ★★★        |
+| Byte Parser (B6)       | —      | —          | ★★★        |
 
 ---

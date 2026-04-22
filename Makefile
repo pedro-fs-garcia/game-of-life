@@ -2,22 +2,24 @@ BIN_DIR := bin
 EXERCISE ?= gameoflife
 BINARY := $(BIN_DIR)/$(EXERCISE)
 
-# Map exercise to its cmd directory
-CMD_gameoflife := app
-CMD_langtons-ant := langtonsant
-CMD_cellular-automata := cellularautomata
-cmd_wireworld := wireworld
-CMD_DIR := $(CMD_$(EXERCISE))
+# Map exercise to its package path
+PKG_gameoflife         := ./cmd/app
+PKG_langtons-ant       := ./cmd/langtonsant
+PKG_cellular-automata  := ./cmd/cellularautomata
+PKG_wireworld          := ./cmd/wireworld
+PKG_brians-brain       := ./cmd/brians-brain
+PKG_seeds-automaton    := .
+PKG := $(PKG_$(EXERCISE))
 
 .PHONY: build run tidy fmt test vet clean check
 
 build:
 	cd $(EXERCISE) && \
-	go build -o ../$(BINARY) ./cmd/$(CMD_DIR)
+	go build -o ../$(BINARY) $(PKG)
 
 run:
 	cd $(EXERCISE) && \
-	go run ./cmd/$(CMD_DIR)
+	go run $(PKG)
 
 tidy:
 	cd $(EXERCISE) && \

@@ -33,8 +33,8 @@ The goal is to build **Go muscle memory**, not demos.
 ├── langtons-ant/
 ├── cellular-automata/
 ├── wireworld/
-├── briansbrain/
-├── turmite/
+├── brians-brain/
+├── seeds-automaton/
 ├── flood-fill/
 ├── union-find/
 ├── event-simulation/
@@ -127,15 +127,15 @@ The exercises are intentionally ordered by **conceptual and Go-specific difficul
 
 **Focus:** 3-state automaton with chaotic, self-organizing behavior
 **Key concepts:** modular arithmetic, toroidal topology, named types (`type State uint8`)
-→ See `briansbrain/`
+→ See `brians-brain/`
 
 ---
 
-### 6. **Turmite (Generalized Langton's Ant)**
+### 6. **Seeds Automaton**
 
-**Focus:** multi-state, multi-color agent with transition tables
-**Key concepts:** multi-dimensional lookup tables, state machine design, sparse grid (`map[Point]Color`)
-→ See `turmite/`
+**Focus:** binary automaton with explosive growth and guaranteed death of live cells
+**Key concepts:** double buffering, early termination, performance under rapid state change
+→ See `seeds-automaton/`
 
 ---
 
