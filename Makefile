@@ -9,6 +9,7 @@ PKG_cellular-automata  := ./cmd/cellularautomata
 PKG_wireworld          := ./cmd/wireworld
 PKG_brians-brain       := ./cmd/brians-brain
 PKG_seeds-automaton    := .
+PKG_cyclic-automaton   := .
 PKG := $(PKG_$(EXERCISE))
 
 .PHONY: build run tidy fmt test vet clean check

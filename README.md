@@ -32,6 +32,7 @@ The goal is to build **Go muscle memory**, not demos.
 ├── gameoflife/
 ├── langtons-ant/
 ├── cellular-automata/
+├── cyclic-automaton/
 ├── wireworld/
 ├── brians-brain/
 ├── seeds-automaton/

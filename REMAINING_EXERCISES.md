@@ -5,68 +5,6 @@ Each automaton has **explicit, deterministic rules** and forces deliberate pract
 
 ---
 
-## Exercise A3 — Cyclic Cellular Automaton
-
-**Domain:** Cellular automaton where cells cycle through N states in order.
-
-**Why:** Introduces **parameterized rules** (number of colors, threshold). Produces visually distinct patterns based on parameters.
-
----
-
-### Rules
-
-**Grid:** 2D finite grid (no wrap-around for simplicity).
-
-**Parameters:**
-
-| Parameter | Description | Typical Range |
-|-----------|-------------|---------------|
-| N | Number of states (colors) | 3–16 |
-| T | Threshold | 1–3 |
-| Range | Neighborhood radius | 1–2 |
-
-**Cell States:** Integer in range `[0, N-1]`
-
-**Transition Rule:**
-
-A cell with state `S` transitions to state `(S + 1) mod N` if **at least T neighbors** have state `(S + 1) mod N`.
-
-Otherwise, the cell **keeps its current state**.
-
-**Neighborhood:** Configurable:
-- Range 1: Moore neighborhood (8 cells)
-- Range 2: Extended Moore (24 cells)
-
----
-
-### Implementation Constraints
-
-* Parameters must be passed at construction, not hardcoded
-* Implement as a `type CyclicAutomaton struct` with configuration
-* State should be `uint8` (supports up to 256 colors)
-* Neighbor checking must handle grid boundaries (no wrap)
-
----
-
-### Suggested Configurations
-
-| Name | N | T | Range | Behavior |
-|------|---|---|-------|----------|
-| Spiral | 8 | 1 | 1 | Forms spirals |
-| Turbulent | 14 | 3 | 2 | Chaotic |
-| Slow | 4 | 2 | 1 | Large stable regions |
-
----
-
-### Forces You to Learn
-
-* Parameterized struct construction
-* Generic neighbor iteration with variable radius
-* Slice preallocation for performance
-* Configuration validation
-
----
-
 ## Exercise A4 — Falling Sand (Particle Automaton)
 
 **Domain:** Gravity-based particle simulation using cellular automaton rules.
@@ -590,7 +528,6 @@ For all exercises:
 
 | Exercise               | States | Dimensions | Complexity |
 |------------------------|--------|------------|------------|
-| Cyclic (A3)            | N      | 2D         | ★★☆        |
 | 1D Totalistic (A5)     | 3      | 1D         | ★★☆        |
 | Flood Fill (B1)        | N      | 2D         | ★★☆        |
 | Union–Find (B2)        | —      | —          | ★★☆        |
